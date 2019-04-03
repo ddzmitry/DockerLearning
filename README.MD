@@ -42,6 +42,8 @@ Hello from Docker!
 This message shows that your installation appears to be working correctly.
 ```
 
+
+
 ```
 Dzmitrys-MBP:DockerLearning dzmitrydubarau$ docker ps --all
 CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS                          PORTS               NAMES
