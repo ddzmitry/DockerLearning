@@ -35,8 +35,21 @@ drwxr-xr-x    4 root     root          4096 Feb 14 18:58 var
 ```bash
 Dzmitrys-MBP:DockerLearning dzmitrydubarau$ docker create hello-world
 ce8ba6a155a7b05039bc622193c9c9f3fbdadcd3a2940f3079efabd25a14b85c
-
+```
+```bash
 Dzmitrys-MBP:DockerLearning dzmitrydubarau$ docker start -a ce8ba6a155a7b05039bc622193c9c9f3fbdadcd3a2940f3079efabd25a14b85c
 Hello from Docker!
 This message shows that your installation appears to be working correctly.
 ```
+
+```
+Dzmitrys-MBP:DockerLearning dzmitrydubarau$ docker ps --all
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS                          PORTS               NAMES
+27e32ac374d5        busybox             "echo hi there"     About a minute ago   Exited (0) About a minute ago                       mystifying_ramanujan
+```
+> and run it again 
+```
+Dzmitrys-MBP:DockerLearning dzmitrydubarau$ `docker start -a 27e32ac374d5`
+hi there
+```
+
