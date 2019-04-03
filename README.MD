@@ -109,7 +109,16 @@ b5fce8ed7452        redis               "docker-entrypoint.s…"   6 minutes ago
 > Execute commands on ID
 ```
 docker exec -it b5fce8ed7452 redis-cli
-127.0.0.1:6379> 
+127.0.0.1:6379> SET myvalue 5
+OK
+127.0.0.1:6379> get myvalue
+"5"
 ```
+> Commont thing is to get shell acces without having to run `docker exec` *now we have root yay*
 
+```
+Dzmitrys-MBP:DockerLearning dzmitrydubarau$ docker exec -it b5fce8ed7452 sh
+# whoami
+root
+```
 
