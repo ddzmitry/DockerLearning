@@ -114,11 +114,23 @@ OK
 127.0.0.1:6379> get myvalue
 "5"
 ```
-> Commont thing is to get shell acces without having to run `docker exec` *now we have root yay*
-
+> Common thing is to get shell acces without having to run `docker exec` *now we have root yay*
 ```
 Dzmitrys-MBP:DockerLearning dzmitrydubarau$ docker exec -it b5fce8ed7452 sh
 # whoami
 root
 ```
+> Also can get shell on box (but it will notl oad layers)
+```
+Dzmitrys-MBP:DockerLearning dzmitrydubarau$ docker run -it busybox sh
+```
+> Containers are not sharing filesystem by default
 
+### Creating own image 
+
+> Flow 
+```
+1) Specify base image 
+2) Run some commands to install additional programs
+3) Specify a command to run on container startup
+```
