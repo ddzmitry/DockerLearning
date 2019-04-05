@@ -134,3 +134,78 @@ Dzmitrys-MBP:DockerLearning dzmitrydubarau$ docker run -it busybox sh
 2) Run some commands to install additional programs
 3) Specify a command to run on container startup
 ```
+> First Image Build (checl redis-image Readme)
+
+> Building with cache (added *RUN apk add --update gcc*) => docker build .
+```
+Step 1/6 : FROM alpine
+ ---> 5cb3aa00f899
+Step 2/6 : RUN apk add --update redis
+ ---> Using cache
+ ---> bed9bbdfdefa
+Step 3/6 : RUN apk add --update vim
+ ---> Using cache
+ ---> 2a5b34f54cde
+Step 4/6 : RUN apk add --update python3
+ ---> Using cache
+ ---> 74feffedb617
+Step 5/6 : RUN apk add --update gcc
+ ---> Running in 00bf73895f0e
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.9/community/x86_64/APKINDEX.tar.gz
+(1/10) Installing binutils (2.31.1-r2)
+(2/10) Installing gmp (6.1.2-r1)
+(3/10) Installing isl (0.18-r0)
+(4/10) Installing libgomp (8.2.0-r2)
+(5/10) Installing libatomic (8.2.0-r2)
+(6/10) Installing libgcc (8.2.0-r2)
+(7/10) Installing mpfr3 (3.1.5-r1)
+(8/10) Installing mpc1 (1.0.3-r1)
+(9/10) Installing libstdc++ (8.2.0-r2)
+(10/10) Installing gcc (8.2.0-r2)
+OK: 183 MiB in 38 packages
+Removing intermediate container 00bf73895f0e
+ ---> be60f5a8ab90
+Step 6/6 : CMD [ "redis-server" ]
+ ---> Running in 0a0cc73057a8
+Removing intermediate container 0a0cc73057a8
+ ---> ecc20707980a
+```
+> RUN Container `docker run ecc20707980a`
+
+> To name own way container 
+```
+docker build -t dzmitry/redis:latest .
+```
+> docker run dzmitry/redis:latestdocker create 
+
+#### Manual Image Generation with Docker  (Not recommended better use Dockerfile)
+> Run image
+```
+Dzmitrys-MBP:redis-image dzmitrydubarau$ docker run -it alpine sh
+```
+> Install Redis
+```
+apk add redis --update
+```
+> Take a snapshot of container
+```
+Dzmitrys-MBP:DockerLearning dzmitrydubarau$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+b8f5417a1ac3        alpine              "sh"                2 minutes ago       Up 2 minutes                            confident_bardeen
+```
+> Register Container 
+```
+docker commit -c 'CMD ["redis-server"]' b8f5417a1ac3
+
+sha256:72f98b5245a9aa0ac1fb12345b52d6fc6181ccceacd4046e1c15b53a592a46f2
+```
+> Running container we dont have to memorize full hash ()
+```
+docker run 72f98b5245a9aa0a
+
+1:M 05 Apr 03:17:49.357 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+1:M 05 Apr 03:17:49.357 * Ready to accept connections
+```
+
+#### Project Outline (Node JS Web app)
