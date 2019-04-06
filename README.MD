@@ -245,3 +245,61 @@ COPY ./package.json ./
 # Install dependencies 
 RUN npm install
 ```
+
+#### Project Outline  Page was visited (Node JS Web app and Redis `/visits folder`)
+> `docker run -p 8081:8081 dzmitry/visits`  For Node App
+
+> `docker run redis` For Redis
+
+```
+However Containers are isolated so wee need to setup networking infrastructure between two
+1) Use Docker CLI 
+2) Use Docker Compose 
+```
+### Using Docker Compose to setup network with containers 
+> Alternative syntax 
+
+```
+docker run myimage => docker-compose up
+dodkcer build . + docker run myimage => docker-compose up --build
+```
+> Important 
+```
+services: 
+  redis-server:
+HOSTNAME IS GOINT TO BE redis-server
+```
+
+>  Just if  Using Docker `docker run -d redis | docker ps | docker stop image id `
+
+>  In docker Compose 
+```
+Launch in background 
+docker compose -d 
+
+Stop containers 
+docker-compose down
+```
+> Example _Starting up_ 
+```
+>  docker-compose up -d
+visits_node-app_1 is up-to-date
+visits_redis-server_1 is up-to-date
+
+```
+> Example _Checking_ 
+```
+>  docker-compose ps
+        Name                       Command               State           Ports         
+---------------------------------------------------------------------------------------
+visits_node-app_1       npm start                        Up      0.0.0.0:4081->8081/tcp
+visits_redis-server_1   docker-entrypoint.sh redis ...   Up      6379/tcp   
+```
+> Example _Shutting Down_ 
+```
+> docker-compose down
+Stopping visits_redis-server_1 ... done
+Stopping visits_node-app_1     ... done
+Removing visits_redis-server_1 ... done
+Removing visits_node-app_1     ... done
+```

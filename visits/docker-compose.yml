@@ -1,0 +1,18 @@
+# Create couple containers 
+# 1) For Redis server 
+# 2) Node app using Dockerfile that avaliable there
+# 3) Map some ports on lockal machine
+
+# Use Version 
+version: '3'
+# Redis server 
+services: 
+  redis-server:
+    image: 'redis'
+  node-app:
+    # Build in Current directory
+    build: .  
+    ports:
+      # Connect ports in local machine  to docker container
+      - "4081:8081"
+
