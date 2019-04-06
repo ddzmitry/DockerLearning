@@ -208,4 +208,40 @@ docker run 72f98b5245a9aa0a
 1:M 05 Apr 03:17:49.357 * Ready to accept connections
 ```
 
-#### Project Outline (Node JS Web app `simpleweb folder`)
+#### Project Outline (Node JS Web app `/simpleweb folder`)
+> To Copy (PATH is relative to `build .` context)
+```
+COPY package.json /tmp/package.json
+```
+> Build custom name
+```
+docker build -t dzmitry/simpleweb .
+```
+> To Open Port for incomming requests (Docker can make outcoming requests on it's own)
+```
+docker run -p 8080:8080 dzmitry/simpleweb
+docker run -p 5000:8080 dzmitry/simpleweb
+5000 is localhost
+```
+> Use exec 
+```
+docker run -p 8080:8080 dzmitry/simpleweb
+```
+> Get Container id 
+```
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
+1a3fe53a4213        dzmitry/simpleweb   "npm start"         33 seconds ago      Up 32 seconds       0.0.0.0:8080->8080/tcp   loving_ramanujan
+```
+> Execute custom command (since WORKDIR specified it will automatically redirect there )
+```
+docker exec -it 1a3fe53a4213 sh
+/usr/app # pwd
+/usr/app
+```
+> Avoid reinstall on every time when content changes
+```
+# ONLY Package.json
+COPY ./package.json ./
+# Install dependencies 
+RUN npm install
+```

@@ -1,16 +1,15 @@
 # Use an existing docker image as base 
-FROM alpine
-# Download and install dependencies
-RUN apk add --update nodejs
-RUN apk add --update npm
-# Add files 
-ADD package.json /tmp/package.json
-RUN cd /tmp && npm install
-RUN mkdir -p /opt/app && cp -a /tmp/node_modules /opt/app/
-
-WORKDIR /opt/app
-ADD . /opt/app
-
+FROM node:alpine
+# Make WORKDIR (will be created)
+WORKDIR /usr/app
+# Add files we do want to make sure that we will not put folders to root directory
+# ONLY Package.json
+COPY ./package.json ./
+# Install dependencies 
+RUN npm install
+# COPY rest of the files
+COPY ./ ./
+# Open Port on Docker Box (not necessary at this case)
 EXPOSE 8080
-
+# Run application
 CMD ["npm", "start"]
