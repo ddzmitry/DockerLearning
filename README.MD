@@ -303,3 +303,21 @@ Stopping visits_node-app_1     ... done
 Removing visits_redis-server_1 ... done
 Removing visits_node-app_1     ... done
 ```
+
+### Dealing With containers That Crush
+> To rebuild image "docker-compose up --build"
+> _visits_node-app_1 exited with code 0_ => Exit Code for image 
+
+>Exit code 
+```
+1,2,3,4,5...etc that means it failed
+```
+
+> Wokring with Restart Policy (failover)
+```
+  node-app:
+    # will restart it at any time it goes down
+    restart: always
+```
+
+### Creating a Production-Grade Workflow

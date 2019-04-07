@@ -10,6 +10,7 @@ services:
   redis-server:
     image: 'redis'
   node-app:
+    restart: on-failure
     # Build in Current directory
     build: .  
     ports:
