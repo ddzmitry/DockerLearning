@@ -320,4 +320,22 @@ Removing visits_node-app_1     ... done
     restart: always
 ```
 
-### Creating a Production-Grade Workflow
+### Creating a Production-Grade Workflow (React App)
+
+> To use custom dockerfile name `docker build -f Dockerfile.dev .`
+
+> HOTRELOAD for docker image propagfandation
+> Docker Volumes create reference for folder that will be on local machine
+_Creating mapping from outside of container to inside of container_
+```bash
+docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app <image id>
+```
+>Command explanation
+```
+-v /app/node_modules =>  will keep node_modules on container add a bookmark
+-v $(pwd):/app => that will  MAP /Users/dzmitrydubarau/Documents/Learning/DockerLearning/frontend to :/app
+```
+> Full command
+```
+docker run -p 3000:3000 -v /app/node_modules  -v $(pwd):/app a53f512c843a
+```
