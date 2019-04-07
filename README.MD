@@ -339,3 +339,48 @@ docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app <image id>
 ```
 docker run -p 3000:3000 -v /app/node_modules  -v $(pwd):/app a53f512c843a
 ```
+> Command became too complicated however we can replace it with docker-compose
+```yml
+    volumes:
+      # DO NOT MAPP NODE MODULES
+      - /app/node_modules
+      # MAP everything else
+      - .:/app    
+```
+> Executing test
+```
+ocker build -f Dockerfile.dev .
+docker run -it c440bba3b4e9 npm run test
+```
+
+> Making docker-compose to do it for you 
+```yml
+services:
+    tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    # Owerwrite command to start
+    command: ["npm","run","test"]
+```
+> Commands on container `docker attach` attaches to `stdin, stdout, stderr` 
+```
+docker ps 
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
+71db5716ed79        frontend_tests      "npm run test"      4 minutes ago       Up 4 minutes                                 frontend_tests_1
+db93492eb03c        frontend_web        "npm run start"     24 minutes ago      Up 4 minutes        0.0.0.0:3000->3000/tcp   frontend_web_1
+docker attach db93492eb03c
+```
+> docker exec -it db93492eb03c `sh` => only for `stdin` 
+```
+docker exec -it db93492eb03c sh
+npm run test
+```
+
+> How To BUILD using nginx for production version of container `Dockerfile.prod`
+> Dockerfile with multisteps for building image 
+*Buld  static website*
+*Use nginx / copy files/ run build/ start nginx*

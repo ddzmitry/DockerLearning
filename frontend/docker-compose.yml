@@ -1,0 +1,26 @@
+version: '3'
+services:
+  # name of aplication
+  web:
+    build:
+      # where we want files to be pulled from
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # DO NOT MAPP NODE MODULES
+      - /app/node_modules
+      # MAP everything else
+      - .:/app
+  # Adding test service
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    # Owerwrite command to start
+    command: ["npm","run","test"]
+
