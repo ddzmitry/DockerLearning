@@ -382,5 +382,41 @@ npm run test
 
 > How To BUILD using nginx for production version of container `Dockerfile.prod`
 > Dockerfile with multisteps for building image 
-*Buld  static website*
-*Use nginx / copy files/ run build/ start nginx*
+> *Buld  static website*
+> *Use nginx / copy files/ run build/ start nginx*
+> Check Dockerfile in `/frontend`
+```yml
+FROM nginx
+# Copy from builder phase
+# https://hub.docker.com/_/nginx
+COPY --from=builder /app/build /usr/share/nginx/html
+```
+```
+docker run -p 8080:80 a3599b5cc393
+172.17.0.1 - - [07/Apr/2019:18:48:04 +0000] "GET / HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36" "-"
+172.17.0.1 - - [07/Apr/2019:18:48:04 +0000] "GET /favicon.ico HTTP/1.1" 200 3870 "http://localhost:8080/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36" "-"
+YAY it works
+```
+
+#### Travis CI
+> https://travis-ci.org/ddzmitry/Docker-Deploy-Project
+> Tell Travis we need copy of docker unning
+> Build our image using Docker.dev
+> Tell travis to run our test suite 
+> Tell Travis to deploy our code to AWS
+
+
+
+```
+# Config
+sudo: required
+# Get docker ready
+services:
+  - docker
+# Build Docker Container
+before_install:
+  - docker build -t ddzmitry/docker-deploy-project -f Dockerfile.dev .
+#  Run tests
+script:
+  - docker run ddzmitry/docker-deploy-project npm run test -- --coverage
+  ```
