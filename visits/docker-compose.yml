@@ -2,13 +2,15 @@
 # 1) For Redis server 
 # 2) Node app using Dockerfile that avaliable there
 # 3) Map some ports on lockal machine
-
 # Use Version 
 version: '3'
+
 # Redis server 
-services: 
+services:
+
   redis-server:
     image: 'redis'
+
   node-app:
     restart: on-failure
     # Build in Current directory
